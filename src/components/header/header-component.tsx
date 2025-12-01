@@ -9,7 +9,11 @@ import {
 } from "./header.styles";
 import { IconContainer } from "../button/button.styles";
 
-const Header = () => {
+interface HeaderProps {
+  handleToggleCart: () => void;
+}
+
+const Header = ({ handleToggleCart }: HeaderProps) => {
   return (
     <HeaderComponent>
       <Link to="/">
@@ -43,6 +47,7 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
           }}
+          onClick={handleToggleCart}
         >
           <IconContainer>
             <MdOutlineShoppingCart size={24} />

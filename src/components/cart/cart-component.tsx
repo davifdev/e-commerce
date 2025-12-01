@@ -1,3 +1,6 @@
+import { MdAddShoppingCart } from "react-icons/md";
+
+import CartItem from "../cart-item/cart-item-component";
 import {
   CartContainer,
   CartContent,
@@ -5,13 +8,21 @@ import {
   CartTitle,
   CartTotal,
 } from "./cart.styles";
+import Button from "../button/button-component";
+import { IconContainer } from "../button/button.styles";
 
-const Cart = () => {
+interface CartProps {
+  handleToggleCart: () => void;
+  toggleCart: boolean;
+}
+
+const Cart = ({ handleToggleCart, toggleCart }: CartProps) => {
   return (
-    <CartContainer isVisible={false}>
-      <CartEscapeArea />
+    <CartContainer isVisible={toggleCart}>
+      <CartEscapeArea onClick={handleToggleCart} />
       <CartContent>
         <CartTitle>Seu Carrinho</CartTitle>
+        <CartItem />
         <CartTotal>
           Total:
           {new Intl.NumberFormat("pt-br", {
@@ -19,6 +30,12 @@ const Cart = () => {
             currency: "BRL",
           }).format(500)}
         </CartTotal>
+        <Button>
+          <IconContainer>
+            <MdAddShoppingCart size={24} />
+          </IconContainer>
+          Ir para o Checkout
+        </Button>
       </CartContent>
     </CartContainer>
   );
