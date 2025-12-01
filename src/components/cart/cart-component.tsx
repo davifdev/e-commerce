@@ -10,6 +10,7 @@ import {
 } from "./cart.styles";
 import Button from "../button/button-component";
 import { IconContainer } from "../button/button.styles";
+import { CheckoutProducts } from "../../pages/checkout/checkout.styles";
 
 interface CartProps {
   handleToggleCart: () => void;
@@ -22,7 +23,11 @@ const Cart = ({ handleToggleCart, toggleCart }: CartProps) => {
       <CartEscapeArea onClick={handleToggleCart} />
       <CartContent>
         <CartTitle>Seu Carrinho</CartTitle>
-        <CartItem />
+        <CheckoutProducts isCart={true}>
+          <CartItem />
+          <CartItem />
+          <CartItem />
+        </CheckoutProducts>
         <CartTotal>
           Total:
           {new Intl.NumberFormat("pt-br", {
