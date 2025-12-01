@@ -1,3 +1,5 @@
+import { PiSignIn } from "react-icons/pi";
+
 import Button from "../../components/button/button-component";
 import Input from "../../components/input/input-component";
 import {
@@ -6,6 +8,7 @@ import {
   SignUpHeadline,
   SignUpInputContainer,
 } from "./signup.styles";
+import { IconContainer } from "../../components/button/button.styles";
 
 const SignUp = () => {
   return (
@@ -32,7 +35,12 @@ const SignUp = () => {
           <p>Confirmação de senha</p>
           <Input placeholder="Confirme sua senha" />
         </SignUpInputContainer>
-        <Button>Criar Conta</Button>
+        <Button>
+          <IconContainer>
+            <PiSignIn size={18} />
+          </IconContainer>
+          Criar Conta
+        </Button>
       </SignUpContent>
     </SignUpContainer>
   );

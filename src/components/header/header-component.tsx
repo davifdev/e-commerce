@@ -1,3 +1,5 @@
+import { MdOutlineShoppingCart } from "react-icons/md";
+
 import { Link, NavLink } from "react-router-dom";
 import {
   HeaderComponent,
@@ -5,6 +7,7 @@ import {
   HeaderItems,
   HeaderNavigation,
 } from "./header.styles";
+import { IconContainer } from "../button/button.styles";
 
 const Header = () => {
   return (
@@ -34,7 +37,18 @@ const Header = () => {
             </NavLink>
           </HeaderItem>
         </HeaderItems>
-        <button style={{ color: "#f8f9fa" }}>5</button>
+        <button
+          style={{
+            color: "#f8f9fa",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <IconContainer>
+            <MdOutlineShoppingCart size={24} />
+          </IconContainer>
+          5
+        </button>
       </HeaderNavigation>
     </HeaderComponent>
   );

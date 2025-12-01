@@ -1,4 +1,8 @@
+import { FaGoogle } from "react-icons/fa";
+import { PiSignIn } from "react-icons/pi";
+
 import Button from "../../components/button/button-component";
+import { IconContainer } from "../../components/button/button.styles";
 import Input from "../../components/input/input-component";
 import {
   LoginContainer,
@@ -13,7 +17,12 @@ const Login = () => {
     <LoginContainer>
       <LoginContent>
         <LoginHeadline>Entre com a sua conta</LoginHeadline>
-        <Button>Entrar com o Google</Button>
+        <Button>
+          <IconContainer>
+            <FaGoogle size={16} />
+          </IconContainer>
+          Entrar com o Google
+        </Button>
         <LoginSubtitle>ou entre com o seu e-mail</LoginSubtitle>
         <LoginInputContainer>
           <p>E-mail</p>
@@ -23,7 +32,12 @@ const Login = () => {
           <p>Senha</p>
           <Input placeholder="Digite sua senha" />
         </LoginInputContainer>
-        <Button>Entrar</Button>
+        <Button>
+          <IconContainer>
+            <PiSignIn size={18} />
+          </IconContainer>
+          Entrar
+        </Button>
       </LoginContent>
     </LoginContainer>
   );
