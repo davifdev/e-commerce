@@ -23,8 +23,4 @@ export const HeaderItems = styled.ul`
   gap: 40px;
 `;
 
-export const HeaderItem = styled.li`
-  a {
-    color: #f8f9fa;
-  }
-`;
+export const HeaderItem = styled.li``;
