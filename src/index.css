@@ -22,4 +22,15 @@ ul {
 
 a {
   text-decoration: none;
+  color: #f8f9fa;
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+.active {
+  font-weight: bold;
+  transition: all 0.3s;
 }
