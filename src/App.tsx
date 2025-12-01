@@ -1,4 +1,5 @@
 import Header from "./components/header/header-component";
+import Home from "./pages/home/home-page";
 import Login from "./pages/login/login-page";
 import SignUp from "./pages/signup/signup-component";
 
@@ -9,6 +10,7 @@ const App = () => {
     <BrowserRouter>
       <Header />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
