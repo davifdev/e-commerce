@@ -1,11 +1,11 @@
 import Header from "./components/header/header-component";
-import Login from "./pages/login/login-page";
+import SignUp from "./pages/signup/signup-component";
 
 const App = () => {
   return (
     <>
       <Header />
-      <Login />
+      <SignUp />
     </>
   );
 };
