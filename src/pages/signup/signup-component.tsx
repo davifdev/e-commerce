@@ -12,6 +12,8 @@ import { IconContainer } from "../../components/button/button.styles";
 import { useForm } from "react-hook-form";
 import isEmail from "validator/lib/isEmail";
 import InputErrorMessage from "../../components/input-error-message/input-error-message-component";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../../firebase/firebase.config";
 interface SignupUser {
   name: string;
   lastname: string;
@@ -38,7 +40,18 @@ const SignUp = () => {
   const password = watch("password");
 
   const createUser = async (data: SignupUser) => {
-    console.log(data);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      const user = userCredential.user;
+      await updateProfile(user, { displayName: data.name });
+      console.log(user);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
