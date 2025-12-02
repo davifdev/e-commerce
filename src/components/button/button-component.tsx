@@ -5,8 +5,8 @@ interface ButtonProps extends ComponentProps<"button"> {
   children: ReactNode;
 }
 
-const Button = ({ children }: ButtonProps) => {
-  return <CustomButtonContainer>{children}</CustomButtonContainer>;
+const Button = ({ children, ...props }: ButtonProps) => {
+  return <CustomButtonContainer {...props}>{children}</CustomButtonContainer>;
 };
 
 export default Button;

@@ -11,13 +11,36 @@ import {
   LoginInputContainer,
   LoginSubtitle,
 } from "./login.styles";
+import { useForm } from "react-hook-form";
+import isEmail from "validator/lib/isEmail";
+import InputErrorMessage from "../../components/input-error-message/input-error-message-component";
 
+interface LoginUser {
+  email: string;
+  password: string;
+}
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const loginUser = async (data: LoginUser) => {
+    console.log(data);
+  };
+
+  console.log(errors);
   return (
     <LoginContainer>
-      <LoginContent>
+      <LoginContent onSubmit={handleSubmit(loginUser)}>
         <LoginHeadline>Entre com a sua conta</LoginHeadline>
-        <Button>
+        <Button type="button">
           <IconContainer>
             <FaGoogle size={16} />
           </IconContainer>
@@ -26,13 +49,36 @@ const Login = () => {
         <LoginSubtitle>ou entre com o seu e-mail</LoginSubtitle>
         <LoginInputContainer>
           <p>E-mail</p>
-          <Input placeholder="Digite seu e-mail" />
+          <Input
+            hasError={!!errors.email}
+            placeholder="Digite seu e-mail"
+            {...register("email", {
+              required: "O e-mail é obrigatório.",
+              validate: (value) => {
+                if (!isEmail(value)) {
+                  return "O e-mail é inválido.";
+                }
+              },
+            })}
+          />
+          <InputErrorMessage>{errors.email?.message}</InputErrorMessage>
         </LoginInputContainer>
         <LoginInputContainer>
           <p>Senha</p>
-          <Input placeholder="Digite sua senha" />
+          <Input
+            hasError={!!errors.password}
+            placeholder="Digite sua senha"
+            {...register("password", {
+              required: "A senha é obrigatória",
+              minLength: {
+                value: 6,
+                message: "A senha deve ter no mínimo 6 caracteres.",
+              },
+            })}
+          />
+          <InputErrorMessage>{errors.password?.message}</InputErrorMessage>
         </LoginInputContainer>
-        <Button>
+        <Button type="submit">
           <IconContainer>
             <PiSignIn size={18} />
           </IconContainer>
