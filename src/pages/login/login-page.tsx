@@ -14,6 +14,12 @@ import {
 import { useForm } from "react-hook-form";
 import isEmail from "validator/lib/isEmail";
 import InputErrorMessage from "../../components/input-error-message/input-error-message-component";
+import {
+  AuthErrorCodes,
+  signInWithEmailAndPassword,
+  type AuthError,
+} from "firebase/auth";
+import { auth } from "../../firebase/firebase.config";
 
 interface LoginUser {
   email: string;
@@ -24,6 +30,7 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm({
     defaultValues: {
       email: "",
@@ -32,10 +39,22 @@ const Login = () => {
   });
 
   const loginUser = async (data: LoginUser) => {
-    console.log(data);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      const user = userCredential.user;
+      console.log(user);
+    } catch (error) {
+      const _error = error as AuthError;
+      if (_error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
+        setError("email", { message: "E-mail ou senha incorretos." });
+      }
+    }
   };
 
-  console.log(errors);
   return (
     <LoginContainer>
       <LoginContent onSubmit={handleSubmit(loginUser)}>
@@ -66,6 +85,7 @@ const Login = () => {
         <LoginInputContainer>
           <p>Senha</p>
           <Input
+            type="password"
             hasError={!!errors.password}
             placeholder="Digite sua senha"
             {...register("password", {
