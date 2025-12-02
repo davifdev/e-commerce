@@ -11,6 +11,7 @@ import {
 import { IconContainer } from "../../components/button/button.styles";
 import { useForm } from "react-hook-form";
 import isEmail from "validator/lib/isEmail";
+import InputErrorMessage from "../../components/input-error-message/input-error-message-component";
 interface SignupUser {
   name: string;
   lastname: string;
@@ -23,6 +24,7 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<SignupUser>({
     defaultValues: {
       name: "",
@@ -33,11 +35,11 @@ const SignUp = () => {
     },
   });
 
+  const password = watch("password");
+
   const createUser = async (data: SignupUser) => {
     console.log(data);
   };
-
-  console.log(errors);
 
   return (
     <SignUpContainer>
@@ -46,6 +48,7 @@ const SignUp = () => {
         <SignUpInputContainer>
           <p>Nome</p>
           <Input
+            hasError={!!errors.name}
             placeholder="Digite seu nome"
             {...register("name", {
               required: "O nome é obrigatório.",
@@ -55,10 +58,12 @@ const SignUp = () => {
               },
             })}
           />
+          <InputErrorMessage>{errors.name?.message}</InputErrorMessage>
         </SignUpInputContainer>
         <SignUpInputContainer>
           <p>Sobrenome</p>
           <Input
+            hasError={!!errors.lastname}
             placeholder="Digite seu sobrenome"
             {...register("lastname", {
               required: "O sobrenome é obrigatório.",
@@ -68,10 +73,12 @@ const SignUp = () => {
               },
             })}
           />
+          <InputErrorMessage>{errors.lastname?.message}</InputErrorMessage>
         </SignUpInputContainer>
         <SignUpInputContainer>
           <p>E-mail</p>
           <Input
+            hasError={!!errors.email}
             placeholder="Digite seu e-mail"
             {...register("email", {
               required: "O e-mail é obrigatório",
@@ -82,10 +89,13 @@ const SignUp = () => {
               },
             })}
           />
+          <InputErrorMessage>{errors.email?.message}</InputErrorMessage>
         </SignUpInputContainer>
         <SignUpInputContainer>
           <p>Senha</p>
           <Input
+            hasError={!!errors.password}
+            type="password"
             placeholder="Digite sua senha"
             {...register("password", {
               required: "A senha é obrigatória.",
@@ -95,10 +105,13 @@ const SignUp = () => {
               },
             })}
           />
+          <InputErrorMessage>{errors.password?.message}</InputErrorMessage>
         </SignUpInputContainer>
         <SignUpInputContainer>
           <p>Confirmação de senha</p>
           <Input
+            hasError={!!errors.passwordConfirmation}
+            type="password"
             placeholder="Confirme sua senha"
             {...register("passwordConfirmation", {
               required: "A confirmação de senha é obrigatória.",
@@ -107,8 +120,16 @@ const SignUp = () => {
                 message:
                   "A confirmação de senha deve ter no mínimo 6 caracteres.",
               },
+              validate: (value) => {
+                if (value !== password) {
+                  return "As senhas devem ser iguais.";
+                }
+              },
             })}
           />
+          <InputErrorMessage>
+            {errors.passwordConfirmation?.message}
+          </InputErrorMessage>
         </SignUpInputContainer>
         <Button type="submit">
           <IconContainer>
