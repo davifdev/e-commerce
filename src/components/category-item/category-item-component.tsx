@@ -1,10 +1,17 @@
+import type { Category } from "../../types/category-type";
 import { CategoryItemContainer, CategoryName } from "./category.styles";
 
-const CategoryItem = () => {
+interface CategoryItemProps {
+  category: Category;
+}
+
+const CategoryItem = ({ category }: CategoryItemProps) => {
+  const { imageUrl, displayName } = category;
+
   return (
-    <CategoryItemContainer>
+    <CategoryItemContainer backgroundImage={imageUrl}>
       <CategoryName>
-        Jaquetas
+        {displayName}
         <p>Explorar</p>
       </CategoryName>
     </CategoryItemContainer>
