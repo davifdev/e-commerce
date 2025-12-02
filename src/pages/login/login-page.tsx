@@ -17,9 +17,11 @@ import InputErrorMessage from "../../components/input-error-message/input-error-
 import {
   AuthErrorCodes,
   signInWithEmailAndPassword,
+  signInWithPopup,
   type AuthError,
 } from "firebase/auth";
-import { auth } from "../../firebase/firebase.config";
+import { auth, db, provider } from "../../firebase/firebase.config";
+import { addDoc, collection } from "firebase/firestore";
 
 interface LoginUser {
   email: string;
@@ -55,11 +57,30 @@ const Login = () => {
     }
   };
 
+  const handleLoginWithGoogleClick = async () => {
+    try {
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+      const name = user.displayName?.split(" ")[0];
+      const lastname = user.displayName?.split(" ")[1];
+
+      await addDoc(collection(db, "users"), {
+        id: user.uid,
+        name,
+        lastname,
+        email: user.email,
+        provider: "Google",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <LoginContainer>
       <LoginContent onSubmit={handleSubmit(loginUser)}>
         <LoginHeadline>Entre com a sua conta</LoginHeadline>
-        <Button type="button">
+        <Button type="button" onClick={handleLoginWithGoogleClick}>
           <IconContainer>
             <FaGoogle size={16} />
           </IconContainer>
