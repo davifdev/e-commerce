@@ -12,8 +12,13 @@ import { IconContainer } from "../../components/button/button.styles";
 import { useForm } from "react-hook-form";
 import isEmail from "validator/lib/isEmail";
 import InputErrorMessage from "../../components/input-error-message/input-error-message-component";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../../firebase/firebase.config";
+import {
+  AuthErrorCodes,
+  createUserWithEmailAndPassword,
+  type AuthError,
+} from "firebase/auth";
+import { auth, db } from "../../firebase/firebase.config";
+import { addDoc, collection } from "firebase/firestore";
 interface SignupUser {
   name: string;
   lastname: string;
@@ -27,6 +32,7 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    setError,
   } = useForm<SignupUser>({
     defaultValues: {
       name: "",
@@ -46,11 +52,22 @@ const SignUp = () => {
         data.email,
         data.password
       );
+
       const user = userCredential.user;
-      await updateProfile(user, { displayName: data.name });
-      console.log(user);
+      await addDoc(collection(db, "users"), {
+        id: user.uid,
+        email: user.email,
+        name: data.name,
+        lastname: data.lastname,
+        provider: "firebase",
+      });
     } catch (error) {
-      console.log(error);
+      const _error = error as AuthError;
+      if (_error.code === AuthErrorCodes.EMAIL_EXISTS) {
+        return setError("email", {
+          message: "O e-mail já está sendo utilizado.",
+        });
+      }
     }
   };
 
