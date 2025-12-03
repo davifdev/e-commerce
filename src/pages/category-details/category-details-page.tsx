@@ -44,7 +44,7 @@ const CategoryDetails = () => {
         <IconContainer>
           <BiChevronLeft size={36} />
         </IconContainer>
-        <p>Explorar</p>
+        <p>Explorar {category?.displayName}</p>
       </CategoryTitle>
       <ProductsContainer>
         {category?.products.map((product) => (

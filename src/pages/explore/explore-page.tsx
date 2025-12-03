@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import type { Category } from "../../types/category-type";
-import { collection } from "firebase/firestore";
+import { Container } from "./explore.styles";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firebase.config";
-import { getDocs } from "firebase/firestore";
 import { categoryConverter } from "../../converters/firestore-converters";
-import CategoriesOverview from "../categories-details/categories-details-page";
+import type { Category } from "../../types/category-type";
+import CategoryOverview from "../../components/category-overview/category-overview-component";
 
 const Explore = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -29,12 +29,12 @@ const Explore = () => {
     fetchCategories();
   }, []);
 
-  console.log(categories);
-
   return (
-    <>
-      <CategoriesOverview />
-    </>
+    <Container>
+      {categories.map((category) => (
+        <CategoryOverview category={category} key={category.id} />
+      ))}
+    </Container>
   );
 };
 

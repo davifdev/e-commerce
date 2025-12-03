@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Checkout from "./pages/checkout/checkout-page";
 import Cart from "./components/cart/cart-component";
 import CategoryDetails from "./pages/category-details/category-details-page";
+import Explore from "./pages/explore/explore-page";
 
 const App = () => {
   const [toggleCart, setToggleCart] = useState(false);
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/explore" element={<Explore />} />
         <Route path="/category/:categoryId" element={<CategoryDetails />} />
       </Routes>
       <Cart handleToggleCart={handleToggleCart} toggleCart={toggleCart} />

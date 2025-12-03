@@ -22,7 +22,7 @@ const Header = ({ handleToggleCart }: HeaderProps) => {
       <HeaderNavigation>
         <HeaderItems>
           <HeaderItem>
-            <NavLink to="">Explorar</NavLink>
+            <NavLink to="/explore">Explorar</NavLink>
           </HeaderItem>
           <HeaderItem>
             <NavLink
