@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Cart from "./components/cart/cart-component";
+
 import Header from "./components/header/header-component";
 import Home from "./pages/home/home-page";
 import Login from "./pages/login/login-page";
@@ -24,8 +24,6 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
-
-      <Cart handleToggleCart={handleToggleCart} toggleCart={toggleCart} />
     </BrowserRouter>
   );
 };
