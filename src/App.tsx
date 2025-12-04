@@ -1,19 +1,20 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import Header from "./components/header/header-component";
 import Home from "./pages/home/home-page";
 import Login from "./pages/login/login-page";
 import SignUp from "./pages/signup/signup-component";
-
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Checkout from "./pages/checkout/checkout-page";
+import Explore from "./pages/explore/explore-page";
+
 import Cart from "./components/cart/cart-component";
 import CategoryDetails from "./pages/category-details/category-details-page";
-import Explore from "./pages/explore/explore-page";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./firebase/firebase.config";
 import { useUserContext } from "./contexts/user";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { userConverter } from "./converters/firestore-converters";
 
 const App = () => {
   const { loginUser, logoutUser, isAuthenticated } = useUserContext();
@@ -30,12 +31,15 @@ const App = () => {
 
       const isSigningIn = !isAuthenticated && user;
       if (isSigningIn) {
-        const q = query(collection(db, "users"), where("id", "==", user.uid));
+        const q = query(
+          collection(db, "users").withConverter(userConverter),
+          where("id", "==", user.uid)
+        );
         const querySnapshot = await getDocs(q);
 
         const userFromFireStore = querySnapshot.docs[0]?.data();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        loginUser(userFromFireStore as any);
+
+        loginUser(userFromFireStore);
         setIsLoading(false);
         return;
       }
