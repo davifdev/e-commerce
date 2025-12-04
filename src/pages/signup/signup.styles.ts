@@ -2,7 +2,8 @@ import styled from "styled-components";
 import Colors from "../../themes/theme.colors";
 
 export const SignUpContainer = styled.div`
-  height: calc(100vh - 78px);
+  padding-top: 78px;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;

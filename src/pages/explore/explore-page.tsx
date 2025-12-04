@@ -1,7 +1,7 @@
 import { Container } from "./explore.styles";
 
 import CategoryOverview from "../../components/category-overview/category-overview-component";
-import { useCategories } from "../../contexts/use-categories";
+import { useCategories } from "../../contexts/categories";
 
 const Explore = () => {
   const { categories, isLoading } = useCategories();

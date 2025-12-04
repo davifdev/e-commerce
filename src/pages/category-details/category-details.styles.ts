@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  padding: 0px 40px 20px 40px;
+  padding: 78px 40px 20px 40px;
 `;
 
 export const CategoryTitle = styled.div`

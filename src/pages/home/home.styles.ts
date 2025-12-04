@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const CategoriesContainer = styled.div`
-  height: calc(100vh - 78px);
+  padding-top: 78px;
+  height: 100vh;
   width: 100%;
   display: flex;
   justify-content: center;

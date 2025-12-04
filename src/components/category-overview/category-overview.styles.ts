@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Colors from "../../themes/theme.colors";
 
 export const CategoryContainer = styled.div`
+  padding-top: 78px;
   display: flex;
   flex-direction: column;
   width: 100%;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Header from "./components/header/header-component";
 import Home from "./pages/home/home-page";
@@ -10,17 +10,47 @@ import Checkout from "./pages/checkout/checkout-page";
 import Cart from "./components/cart/cart-component";
 import CategoryDetails from "./pages/category-details/category-details-page";
 import Explore from "./pages/explore/explore-page";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "./firebase/firebase.config";
+import { useUserContext } from "./contexts/user";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const App = () => {
-  const [toggleCart, setToggleCart] = useState(false);
+  const { loginUser, logoutUser, isAuthenticated } = useUserContext();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleToggleCart = () => {
-    setToggleCart(!toggleCart);
-  };
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      const isSigningOut = isAuthenticated && !user;
+      if (isSigningOut) {
+        logoutUser();
+        setIsLoading(false);
+        return;
+      }
+
+      const isSigningIn = !isAuthenticated && user;
+      if (isSigningIn) {
+        const q = query(collection(db, "users"), where("id", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+
+        const userFromFireStore = querySnapshot.docs[0]?.data();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        loginUser(userFromFireStore as any);
+        setIsLoading(false);
+        return;
+      }
+
+      return setIsLoading(false);
+    });
+  }, [isAuthenticated, loginUser, logoutUser]);
+
+  if (isLoading) {
+    return <p>Carregando...</p>;
+  }
 
   return (
     <BrowserRouter>
-      <Header handleToggleCart={handleToggleCart} />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -29,7 +59,7 @@ const App = () => {
         <Route path="/explore" element={<Explore />} />
         <Route path="/category/:categoryId" element={<CategoryDetails />} />
       </Routes>
-      <Cart handleToggleCart={handleToggleCart} toggleCart={toggleCart} />
+      <Cart />
     </BrowserRouter>
   );
 };

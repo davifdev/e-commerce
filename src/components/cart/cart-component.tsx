@@ -12,15 +12,10 @@ import Button from "../button/button-component";
 import { IconContainer } from "../button/button.styles";
 import { CheckoutProducts } from "../../pages/checkout/checkout.styles";
 
-interface CartProps {
-  handleToggleCart: () => void;
-  toggleCart: boolean;
-}
-
-const Cart = ({ handleToggleCart, toggleCart }: CartProps) => {
+const Cart = () => {
   return (
-    <CartContainer isVisible={toggleCart}>
-      <CartEscapeArea onClick={handleToggleCart} />
+    <CartContainer isVisible={false}>
+      <CartEscapeArea />
       <CartContent>
         <CartTitle>Seu Carrinho</CartTitle>
         <CheckoutProducts isCart={true}>

@@ -22,12 +22,17 @@ import {
 } from "firebase/auth";
 import { auth, db, provider } from "../../firebase/firebase.config";
 import { addDoc, collection } from "firebase/firestore";
+import { useUserContext } from "../../contexts/user";
+import { useNavigate } from "react-router-dom";
 
 interface LoginUser {
   email: string;
   password: string;
 }
 const Login = () => {
+  const navigate = useNavigate();
+  const { currentUser } = useUserContext();
+
   const {
     register,
     handleSubmit,
@@ -39,6 +44,11 @@ const Login = () => {
       password: "",
     },
   });
+
+  if (currentUser) {
+    navigate("/");
+    return;
+  }
 
   const loginUser = async (data: LoginUser) => {
     try {

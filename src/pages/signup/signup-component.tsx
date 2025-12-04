@@ -19,6 +19,8 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../../firebase/firebase.config";
 import { addDoc, collection } from "firebase/firestore";
+import { useUserContext } from "../../contexts/user";
+import { useNavigate } from "react-router-dom";
 interface SignupUser {
   name: string;
   lastname: string;
@@ -27,6 +29,9 @@ interface SignupUser {
   passwordConfirmation: string;
 }
 const SignUp = () => {
+  const { currentUser } = useUserContext();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -42,6 +47,11 @@ const SignUp = () => {
       passwordConfirmation: "",
     },
   });
+
+  if (currentUser) {
+    navigate("/");
+    return;
+  }
 
   const password = watch("password");
 

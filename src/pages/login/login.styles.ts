@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Colors from "../../themes/theme.colors";
 
 export const LoginContainer = styled.div`
+  padding-top: 78px;
   display: flex;
   align-items: center;
   justify-content: center;
