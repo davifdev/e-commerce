@@ -24,7 +24,7 @@ const CategoryOverview = ({ category }: CategoryOverviewProps) => {
         {category.displayName}
       </CategoryTitle>
       <ProductsContainer>
-        {category?.products.slice(0, 4).map((product) => (
+        {category?.products.slice(0, 5).map((product) => (
           <ProductItem product={product} key={product.id} />
         ))}
       </ProductsContainer>

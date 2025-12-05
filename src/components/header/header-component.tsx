@@ -12,9 +12,11 @@ import { useUserContext } from "../../contexts/user";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
 import type { MouseEvent } from "react";
+import { useCartContext } from "../../contexts/cart";
 
 const Header = () => {
   const { currentUser, logoutUser } = useUserContext();
+  const { handleVisibleIsCart, itemsCartLength } = useCartContext();
 
   const handleSignout = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -70,11 +72,12 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
           }}
+          onClick={handleVisibleIsCart}
         >
           <IconContainer>
             <MdOutlineShoppingCart size={24} />
           </IconContainer>
-          5
+          {itemsCartLength}
         </button>
       </HeaderNavigation>
     </HeaderComponent>
