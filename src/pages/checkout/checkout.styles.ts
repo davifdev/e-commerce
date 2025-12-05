@@ -6,10 +6,10 @@ interface CartWidthProps {
 }
 
 export const CheckoutContainer = styled.div`
+  padding-top: 108px;
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-top: 30px;
   padding-bottom: 30px;
   overflow: hidden;
 

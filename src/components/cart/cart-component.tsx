@@ -12,10 +12,18 @@ import { IconContainer } from "../button/button.styles";
 import { CheckoutProducts } from "../../pages/checkout/checkout.styles";
 import { useCartContext } from "../../contexts/cart";
 import CartItemComponent from "../cart-item/cart-item-component";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { products, isVisible, handleVisibleIsCart, amountPrice } =
     useCartContext();
+
+  const navigate = useNavigate();
+
+  const handleNavigateCheckout = () => {
+    navigate(`/checkout`);
+    handleVisibleIsCart();
+  };
 
   return (
     <CartContainer isVisible={isVisible}>
@@ -34,7 +42,7 @@ const Cart = () => {
             currency: "BRL",
           }).format(amountPrice)}
         </CartTotal>
-        <Button>
+        <Button onClick={handleNavigateCheckout}>
           <IconContainer>
             <MdAddShoppingCart size={24} />
           </IconContainer>

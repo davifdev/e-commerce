@@ -1,7 +1,7 @@
 import { MdAddShoppingCart } from "react-icons/md";
 
 import Button from "../../components/button/button-component";
-import CartItem from "../../components/cart-item/cart-item-component";
+
 import {
   CheckoutContainer,
   CheckoutProducts,
@@ -9,22 +9,25 @@ import {
   CheckoutTotal,
 } from "./checkout.styles";
 import { IconContainer } from "../../components/button/button.styles";
+import { useCartContext } from "../../contexts/cart";
+import CartItemComponent from "../../components/cart-item/cart-item-component";
 
 const Checkout = () => {
+  const { amountPrice, products } = useCartContext();
+
   return (
     <CheckoutContainer>
       <CheckoutTitle>Checkout</CheckoutTitle>
       <CheckoutProducts>
-        <CartItem />
-        <CartItem />
-        <CartItem />
-        <CartItem />
+        {products.map((product) => (
+          <CartItemComponent product={product} key={product.id} />
+        ))}
       </CheckoutProducts>
       <CheckoutTotal>
         {new Intl.NumberFormat("pt-br", {
           style: "currency",
           currency: "BRL",
-        }).format(500)}
+        }).format(amountPrice)}
       </CheckoutTotal>
       <Button>
         <IconContainer>
