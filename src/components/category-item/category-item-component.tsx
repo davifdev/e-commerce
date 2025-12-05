@@ -16,7 +16,7 @@ const CategoryItem = ({ category }: CategoryItemProps) => {
   };
 
   return (
-    <CategoryItemContainer backgroundImage={imageUrl}>
+    <CategoryItemContainer $backgroundImage={imageUrl}>
       <CategoryName onClick={handleCategoryDetails}>
         {displayName}
         <p>Explorar</p>

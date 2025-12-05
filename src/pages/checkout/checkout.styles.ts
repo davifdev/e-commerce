@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Colors from "../../themes/theme.colors";
 
 interface CartWidthProps {
-  isCart?: boolean;
+  $isCart?: boolean;
 }
 
 export const CheckoutContainer = styled.div`
@@ -37,7 +37,7 @@ export const CheckoutTitle = styled.p`
 
 export const CheckoutProducts = styled.div<CartWidthProps>`
   height: 600px;
-  min-width: ${(props) => (props.isCart ? "auto" : "650px")};
+  min-width: ${(props) => (props.$isCart ? "auto" : "650px")};
   overflow-y: scroll;
   margin-top: 15px;
   margin-bottom: 15px;

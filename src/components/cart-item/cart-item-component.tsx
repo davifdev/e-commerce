@@ -23,7 +23,7 @@ const CartItemComponent = ({ product }: CartItemProps) => {
 
   return (
     <CartItemContainer>
-      <CartItemImage imageUrl={product.imageUrl} />
+      <CartItemImage $imageUrl={product.imageUrl} />
       <CartItemInfo>
         <p>{product.name}</p>
         <p>

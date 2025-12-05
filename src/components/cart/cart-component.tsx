@@ -26,11 +26,11 @@ const Cart = () => {
   };
 
   return (
-    <CartContainer isVisible={isVisible}>
+    <CartContainer $isVisible={isVisible}>
       <CartEscapeArea onClick={handleVisibleIsCart} />
       <CartContent>
         <CartTitle>Seu Carrinho</CartTitle>
-        <CheckoutProducts isCart={true}>
+        <CheckoutProducts $isCart={true}>
           {products.map((product) => (
             <CartItemComponent product={product} key={product.id} />
           ))}

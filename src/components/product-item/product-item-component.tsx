@@ -18,7 +18,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
 
   return (
     <ProductContainer>
-      <ProductImage imageUrl={product.imageUrl}>
+      <ProductImage $imageUrl={product.imageUrl}>
         <Button onClick={() => addProductToCart(product)}>
           <IconContainer>
             <MdAddShoppingCart size={18} />
