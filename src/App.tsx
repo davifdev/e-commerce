@@ -12,20 +12,24 @@ import Cart from "./components/cart/cart-component";
 import CategoryDetails from "./pages/category-details/category-details-page";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./firebase/firebase.config";
-import { useUserContext } from "./contexts/user";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { userConverter } from "./converters/firestore-converters";
 import Loading from "./components/loading/loading-component";
+import { useDispatch } from "react-redux";
+import { loginUser, logoutUser } from "./store/reducers/user/user.actions";
+import { useAppSelector } from "./hooks/redux.hooks";
 
 const App = () => {
-  const { loginUser, logoutUser, isAuthenticated } = useUserContext();
   const [isLoading, setIsLoading] = useState(true);
+
+  const { isAuthenticated } = useAppSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       const isSigningOut = isAuthenticated && !user;
       if (isSigningOut) {
-        logoutUser();
+        dispatch(logoutUser());
         setIsLoading(false);
         return;
       }
@@ -40,14 +44,14 @@ const App = () => {
 
         const userFromFireStore = querySnapshot.docs[0]?.data();
 
-        loginUser(userFromFireStore);
+        dispatch(loginUser(userFromFireStore));
         setIsLoading(false);
         return;
       }
 
       return setIsLoading(false);
     });
-  }, [isAuthenticated, loginUser, logoutUser]);
+  }, [dispatch, isAuthenticated]);
 
   if (isLoading) {
     return <Loading />;

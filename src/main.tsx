@@ -5,13 +5,17 @@ import App from "./App.tsx";
 import { CategoriesContextProvider } from "./contexts/categories.tsx";
 import { UserContextProvider } from "./contexts/user.tsx";
 import { CartContextProvider } from "./contexts/cart.tsx";
+import { Provider } from "react-redux";
+import { store } from "./store/store.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <CategoriesContextProvider>
       <UserContextProvider>
         <CartContextProvider>
-          <App />
+          <Provider store={store}>
+            <App />
+          </Provider>
         </CartContextProvider>
       </UserContextProvider>
     </CategoriesContextProvider>
