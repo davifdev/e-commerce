@@ -15,6 +15,7 @@ import { auth, db } from "./firebase/firebase.config";
 import { useUserContext } from "./contexts/user";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { userConverter } from "./converters/firestore-converters";
+import Loading from "./components/loading/loading-component";
 
 const App = () => {
   const { loginUser, logoutUser, isAuthenticated } = useUserContext();
@@ -49,7 +50,7 @@ const App = () => {
   }, [isAuthenticated, loginUser, logoutUser]);
 
   if (isLoading) {
-    return <p>Carregando...</p>;
+    return <Loading />;
   }
 
   return (

@@ -24,12 +24,16 @@ import { auth, db, provider } from "../../firebase/firebase.config";
 import { addDoc, collection } from "firebase/firestore";
 import { useUserContext } from "../../contexts/user";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Loading from "../../components/loading/loading-component";
 
 interface LoginUser {
   email: string;
   password: string;
 }
+
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { currentUser } = useUserContext();
 
@@ -52,6 +56,7 @@ const Login = () => {
 
   const loginUser = async (data: LoginUser) => {
     try {
+      setIsLoading(true);
       const userCredential = await signInWithEmailAndPassword(
         auth,
         data.email,
@@ -64,11 +69,14 @@ const Login = () => {
       if (_error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
         setError("email", { message: "E-mail ou senha incorretos." });
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleLoginWithGoogleClick = async () => {
     try {
+      setIsLoading(true);
       const userCredential = await signInWithPopup(auth, provider);
       const user = userCredential.user;
       const name = user.displayName?.split(" ")[0];
@@ -83,11 +91,14 @@ const Login = () => {
       });
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <LoginContainer>
+      {isLoading && <Loading />}
       <LoginContent onSubmit={handleSubmit(loginUser)}>
         <LoginHeadline>Entre com a sua conta</LoginHeadline>
         <Button type="button" onClick={handleLoginWithGoogleClick}>
@@ -102,6 +113,7 @@ const Login = () => {
           <Input
             hasError={!!errors.email}
             placeholder="Digite seu e-mail"
+            disabled={isLoading}
             {...register("email", {
               required: "O e-mail é obrigatório.",
               validate: (value) => {
@@ -119,6 +131,7 @@ const Login = () => {
             type="password"
             hasError={!!errors.password}
             placeholder="Digite sua senha"
+            disabled={isLoading}
             {...register("password", {
               required: "A senha é obrigatória",
               minLength: {
@@ -129,7 +142,7 @@ const Login = () => {
           />
           <InputErrorMessage>{errors.password?.message}</InputErrorMessage>
         </LoginInputContainer>
-        <Button type="submit">
+        <Button type="submit" disabled={isLoading}>
           <IconContainer>
             <PiSignIn size={18} />
           </IconContainer>

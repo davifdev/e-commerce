@@ -13,15 +13,18 @@ import { getDocs } from "firebase/firestore";
 import type { Category } from "../../types/category-type";
 import { categoryConverter } from "../../converters/firestore-converters";
 import ProductItem from "../../components/product-item/product-item-component";
+import Loading from "../../components/loading/loading-component";
 
 const CategoryDetails = () => {
   const [category, setCategory] = useState<Category | null>(null);
+  const [loading, setIsLoading] = useState(false);
   const { categoryId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategory = async () => {
       try {
+        setIsLoading(true);
         const q = query(
           collection(db, "categories").withConverter(categoryConverter),
           where("id", "==", categoryId)
@@ -32,6 +35,8 @@ const CategoryDetails = () => {
         setCategory(category);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -40,12 +45,15 @@ const CategoryDetails = () => {
 
   return (
     <Container>
-      <CategoryTitle onClick={() => navigate(-1)}>
-        <IconContainer>
-          <BiChevronLeft size={36} />
-        </IconContainer>
-        <p>Explorar {category?.displayName}</p>
-      </CategoryTitle>
+      {loading && <Loading />}
+      {!loading && (
+        <CategoryTitle onClick={() => navigate(-1)}>
+          <IconContainer>
+            <BiChevronLeft size={36} />
+          </IconContainer>
+          <p>Explorar {category?.displayName}</p>
+        </CategoryTitle>
+      )}
       <ProductsContainer>
         {category?.products.map((product) => (
           <ProductItem key={product.id} product={product} />
