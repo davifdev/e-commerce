@@ -11,15 +11,14 @@ import { IconContainer } from "../button/button.styles";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
 import type { MouseEvent } from "react";
-import { useCartContext } from "../../contexts/cart";
+
 import { useAppSelector } from "../../hooks/redux.hooks";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../store/reducers/user/user.actions";
 import { handleVisible } from "../../store/reducers/cart/cart.actions";
+import { selectItemsCartLength } from "../../store/reducers/cart/cart.selectors";
 
 const Header = () => {
-  const { itemsCartLength } = useCartContext();
-
   const { currentUser } = useAppSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
@@ -28,6 +27,8 @@ const Header = () => {
     signOut(auth);
     dispatch(logoutUser());
   };
+
+  const itemsCartQuantity = useAppSelector(selectItemsCartLength);
 
   return (
     <HeaderComponent>
@@ -82,7 +83,7 @@ const Header = () => {
           <IconContainer>
             <MdOutlineShoppingCart size={24} />
           </IconContainer>
-          {itemsCartLength}
+          {itemsCartQuantity}
         </button>
       </HeaderNavigation>
     </HeaderComponent>

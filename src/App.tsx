@@ -19,6 +19,8 @@ import { useDispatch } from "react-redux";
 import { loginUser, logoutUser } from "./store/reducers/user/user.actions";
 import { useAppSelector } from "./hooks/redux.hooks";
 
+import PaymentConfirmation from "./pages/payment-confirmation/payment-confirmation-component";
+
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -67,6 +69,7 @@ const App = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/category/:categoryId" element={<CategoryDetails />} />
+        <Route path="/payment-confirmation" element={<PaymentConfirmation />} />
       </Routes>
       <Cart />
     </BrowserRouter>

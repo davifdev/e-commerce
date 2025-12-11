@@ -22,6 +22,7 @@ export default defineConfig([
     rules: {
       "react-hooks/incompatible-library": "off",
       "react-refresh/only-export-components": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
     },
   },
 ]);

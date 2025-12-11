@@ -9,14 +9,31 @@ import {
   CheckoutTotal,
 } from "./checkout.styles";
 import { IconContainer } from "../../components/button/button.styles";
-import { useCartContext } from "../../contexts/cart";
+
 import CartItemComponent from "../../components/cart-item/cart-item-component";
 import { useAppSelector } from "../../hooks/redux.hooks";
+import { selectAmountPrice } from "../../store/reducers/cart/cart.selectors";
+import axios from "axios";
 
 const Checkout = () => {
-  const { amountPrice } = useCartContext();
-
   const { products } = useAppSelector((state) => state.cartReducer);
+
+  const amountPrice = useAppSelector(selectAmountPrice);
+
+  const handleFinishPurchaseClick = async () => {
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/create-checkout-session`,
+        {
+          products,
+        }
+      );
+
+      window.location.href = data.url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <CheckoutContainer>
@@ -32,7 +49,7 @@ const Checkout = () => {
           currency: "BRL",
         }).format(amountPrice)}
       </CheckoutTotal>
-      <Button>
+      <Button onClick={handleFinishPurchaseClick}>
         <IconContainer>
           <MdAddShoppingCart size={24} />
         </IconContainer>

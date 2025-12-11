@@ -10,16 +10,14 @@ import {
 import Button from "../button/button-component";
 import { IconContainer } from "../button/button.styles";
 import { CheckoutProducts } from "../../pages/checkout/checkout.styles";
-import { useCartContext } from "../../contexts/cart";
 import CartItemComponent from "../cart-item/cart-item-component";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../hooks/redux.hooks";
 import { useDispatch } from "react-redux";
 import { handleVisible } from "../../store/reducers/cart/cart.actions";
+import { selectAmountPrice } from "../../store/reducers/cart/cart.selectors";
 
 const Cart = () => {
-  const { amountPrice } = useCartContext();
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,7 +28,7 @@ const Cart = () => {
 
   const { isVisible, products } = useAppSelector((state) => state.cartReducer);
 
-  console.log(products);
+  const amountPrice = useAppSelector(selectAmountPrice);
 
   return (
     <CartContainer $isVisible={isVisible}>
