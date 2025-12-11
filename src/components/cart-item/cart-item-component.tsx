@@ -9,17 +9,18 @@ import {
   RemoveButton,
 } from "./cart-item-styles";
 import type { CartItem } from "../../types/cart-item-type";
-import { useCartContext } from "../../contexts/cart";
+import { useDispatch } from "react-redux";
+import {
+  decrementProductFromCart,
+  incrementProductFromCart,
+  removeProductFromCart,
+} from "../../store/reducers/cart/cart.actions";
 interface CartItemProps {
   product: CartItem;
 }
 
 const CartItemComponent = ({ product }: CartItemProps) => {
-  const {
-    incrementProductFromCart,
-    decrementProductFromCart,
-    removeProductFromCart,
-  } = useCartContext();
+  const dispatch = useDispatch();
 
   return (
     <CartItemContainer>
@@ -34,12 +35,16 @@ const CartItemComponent = ({ product }: CartItemProps) => {
         </p>
 
         <CartItemQuantity>
-          <FiMinus onClick={() => decrementProductFromCart(product.id)} />
+          <FiMinus
+            onClick={() => dispatch(decrementProductFromCart(product.id))}
+          />
           <p>{product.quantity}</p>
-          <FiPlus onClick={() => incrementProductFromCart(product.id)} />
+          <FiPlus
+            onClick={() => dispatch(incrementProductFromCart(product.id))}
+          />
         </CartItemQuantity>
       </CartItemInfo>
-      <RemoveButton onClick={() => removeProductFromCart(product.id)}>
+      <RemoveButton onClick={() => dispatch(removeProductFromCart(product.id))}>
         <IoMdClose size={24} />
       </RemoveButton>
     </CartItemContainer>

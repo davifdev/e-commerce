@@ -13,21 +13,28 @@ import { CheckoutProducts } from "../../pages/checkout/checkout.styles";
 import { useCartContext } from "../../contexts/cart";
 import CartItemComponent from "../cart-item/cart-item-component";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../hooks/redux.hooks";
+import { useDispatch } from "react-redux";
+import { handleVisible } from "../../store/reducers/cart/cart.actions";
 
 const Cart = () => {
-  const { products, isVisible, handleVisibleIsCart, amountPrice } =
-    useCartContext();
+  const { amountPrice } = useCartContext();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleNavigateCheckout = () => {
     navigate(`/checkout`);
-    handleVisibleIsCart();
+    dispatch(handleVisible());
   };
+
+  const { isVisible, products } = useAppSelector((state) => state.cartReducer);
+
+  console.log(products);
 
   return (
     <CartContainer $isVisible={isVisible}>
-      <CartEscapeArea onClick={handleVisibleIsCart} />
+      <CartEscapeArea onClick={() => dispatch(handleVisible())} />
       <CartContent>
         <CartTitle>Seu Carrinho</CartTitle>
         <CheckoutProducts $isCart={true}>

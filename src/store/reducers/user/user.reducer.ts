@@ -12,10 +12,7 @@ const initialState: InitialStateType = {
   isAuthenticated: false,
 };
 
-export const userReducer = (
-  state = initialState,
-  action: UserActions
-): InitialStateType => {
+export const userReducer = (state = initialState, action: UserActions) => {
   switch (action.type) {
     case UserActionType.LOGIN:
       return {

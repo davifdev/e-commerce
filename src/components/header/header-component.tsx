@@ -8,20 +8,25 @@ import {
   HeaderNavigation,
 } from "./header.styles";
 import { IconContainer } from "../button/button.styles";
-import { useUserContext } from "../../contexts/user";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
 import type { MouseEvent } from "react";
 import { useCartContext } from "../../contexts/cart";
+import { useAppSelector } from "../../hooks/redux.hooks";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../store/reducers/user/user.actions";
+import { handleVisible } from "../../store/reducers/cart/cart.actions";
 
 const Header = () => {
-  const { currentUser, logoutUser } = useUserContext();
-  const { handleVisibleIsCart, itemsCartLength } = useCartContext();
+  const { itemsCartLength } = useCartContext();
+
+  const { currentUser } = useAppSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
 
   const handleSignout = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     signOut(auth);
-    logoutUser();
+    dispatch(logoutUser());
   };
 
   return (
@@ -72,7 +77,7 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
           }}
-          onClick={handleVisibleIsCart}
+          onClick={() => dispatch(handleVisible())}
         >
           <IconContainer>
             <MdOutlineShoppingCart size={24} />
