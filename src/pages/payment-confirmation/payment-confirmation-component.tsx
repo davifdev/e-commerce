@@ -14,7 +14,7 @@ const PaymentConfirmation = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const status = searchParams.get("success");
-  const isCanceled = searchParams.get("caceled") === "true";
+  const isCanceled = searchParams.get("canceled") === "true";
 
   const handleGoToHomePageClick = () => {
     navigate("/");
