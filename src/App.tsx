@@ -16,7 +16,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { userConverter } from "./converters/firestore-converters";
 import Loading from "./components/loading/loading-component";
 import { useDispatch } from "react-redux";
-import { loginUser, logoutUser } from "./store/reducers/user/user.actions";
+import { loginUser, logoutUser } from "./store/toolkit/user/user.slice";
 import { useAppSelector } from "./hooks/redux.hooks";
 
 import PaymentConfirmation from "./pages/payment-confirmation/payment-confirmation-component";

@@ -22,11 +22,11 @@ import {
 } from "firebase/auth";
 import { auth, db, provider } from "../../firebase/firebase.config";
 import { addDoc, collection } from "firebase/firestore";
-import { useUserContext } from "../../contexts/user";
+
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loading from "../../components/loading/loading-component";
-
+import { useAppSelector } from "../../hooks/redux.hooks";
 interface LoginUser {
   email: string;
   password: string;
@@ -35,7 +35,7 @@ interface LoginUser {
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { currentUser } = useUserContext();
+  const { currentUser } = useAppSelector((state) => state.userReducer);
 
   const {
     register,
