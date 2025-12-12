@@ -8,30 +8,42 @@ import {
   CartItemQuantity,
   RemoveButton,
 } from "./cart-item-styles";
+import type { CartItem } from "../../types/cart-item-type";
+import { useCartContext } from "../../contexts/cart";
+interface CartItemProps {
+  product: CartItem;
+}
 
-const CartItem = () => {
+const CartItemComponent = ({ product }: CartItemProps) => {
+  const {
+    incrementProductFromCart,
+    decrementProductFromCart,
+    removeProductFromCart,
+  } = useCartContext();
+
   return (
     <CartItemContainer>
-      <CartItemImage imageUrl="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
+      <CartItemImage imageUrl={product.imageUrl} />
       <CartItemInfo>
-        <p>Chapéu Pôr do Sol</p>
+        <p>{product.name}</p>
         <p>
           {new Intl.NumberFormat("pt-br", {
             style: "currency",
             currency: "BRL",
-          }).format(200)}
+          }).format(product.price)}
         </p>
+
         <CartItemQuantity>
-          <FiMinus />
-          <p>1</p>
-          <FiPlus />
+          <FiMinus onClick={() => decrementProductFromCart(product.id)} />
+          <p>{product.quantity}</p>
+          <FiPlus onClick={() => incrementProductFromCart(product.id)} />
         </CartItemQuantity>
       </CartItemInfo>
-      <RemoveButton>
+      <RemoveButton onClick={() => removeProductFromCart(product.id)}>
         <IoMdClose size={24} />
       </RemoveButton>
     </CartItemContainer>
   );
 };
 
-export default CartItem;
+export default CartItemComponent;

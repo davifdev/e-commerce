@@ -1,6 +1,5 @@
 import { MdAddShoppingCart } from "react-icons/md";
 
-import CartItem from "../cart-item/cart-item-component";
 import {
   CartContainer,
   CartContent,
@@ -11,29 +10,29 @@ import {
 import Button from "../button/button-component";
 import { IconContainer } from "../button/button.styles";
 import { CheckoutProducts } from "../../pages/checkout/checkout.styles";
+import { useCartContext } from "../../contexts/cart";
+import CartItemComponent from "../cart-item/cart-item-component";
 
-interface CartProps {
-  handleToggleCart: () => void;
-  toggleCart: boolean;
-}
+const Cart = () => {
+  const { products, isVisible, handleVisibleIsCart, amountPrice } =
+    useCartContext();
 
-const Cart = ({ handleToggleCart, toggleCart }: CartProps) => {
   return (
-    <CartContainer isVisible={toggleCart}>
-      <CartEscapeArea onClick={handleToggleCart} />
+    <CartContainer isVisible={isVisible}>
+      <CartEscapeArea onClick={handleVisibleIsCart} />
       <CartContent>
         <CartTitle>Seu Carrinho</CartTitle>
         <CheckoutProducts isCart={true}>
-          <CartItem />
-          <CartItem />
-          <CartItem />
+          {products.map((product) => (
+            <CartItemComponent product={product} key={product.id} />
+          ))}
         </CheckoutProducts>
         <CartTotal>
           Total:
           {new Intl.NumberFormat("pt-br", {
             style: "currency",
             currency: "BRL",
-          }).format(500)}
+          }).format(amountPrice)}
         </CartTotal>
         <Button>
           <IconContainer>

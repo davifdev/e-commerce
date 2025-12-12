@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const HeaderComponent = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
   background-color: #212529;
   display: flex;
   justify-content: space-between;

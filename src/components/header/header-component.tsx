@@ -8,12 +8,22 @@ import {
   HeaderNavigation,
 } from "./header.styles";
 import { IconContainer } from "../button/button.styles";
+import { useUserContext } from "../../contexts/user";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase/firebase.config";
+import type { MouseEvent } from "react";
+import { useCartContext } from "../../contexts/cart";
 
-interface HeaderProps {
-  handleToggleCart: () => void;
-}
+const Header = () => {
+  const { currentUser, logoutUser } = useUserContext();
+  const { handleVisibleIsCart, itemsCartLength } = useCartContext();
 
-const Header = ({ handleToggleCart }: HeaderProps) => {
+  const handleSignout = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    signOut(auth);
+    logoutUser();
+  };
+
   return (
     <HeaderComponent>
       <Link to="/">
@@ -22,24 +32,39 @@ const Header = ({ handleToggleCart }: HeaderProps) => {
       <HeaderNavigation>
         <HeaderItems>
           <HeaderItem>
-            <NavLink to="">Explorar</NavLink>
+            <NavLink to="/explore">Explorar</NavLink>
           </HeaderItem>
-          <HeaderItem>
-            <NavLink
-              to="/login"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              Login
-            </NavLink>
-          </HeaderItem>
-          <HeaderItem>
-            <NavLink
-              to="/signup"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              Criar Conta
-            </NavLink>
-          </HeaderItem>
+          {currentUser && (
+            <HeaderItem>
+              <NavLink
+                to="/signup"
+                className={({ isActive }) => (isActive ? "active" : "")}
+                onClick={handleSignout}
+              >
+                Sair
+              </NavLink>
+            </HeaderItem>
+          )}
+          {!currentUser && (
+            <HeaderItem>
+              <NavLink
+                to="/login"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Login
+              </NavLink>
+            </HeaderItem>
+          )}
+          {!currentUser && (
+            <HeaderItem>
+              <NavLink
+                to="/signup"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Criar Conta
+              </NavLink>
+            </HeaderItem>
+          )}
         </HeaderItems>
         <button
           style={{
@@ -47,12 +72,12 @@ const Header = ({ handleToggleCart }: HeaderProps) => {
             display: "flex",
             alignItems: "center",
           }}
-          onClick={handleToggleCart}
+          onClick={handleVisibleIsCart}
         >
           <IconContainer>
             <MdOutlineShoppingCart size={24} />
           </IconContainer>
-          5
+          {itemsCartLength}
         </button>
       </HeaderNavigation>
     </HeaderComponent>

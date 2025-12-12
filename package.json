@@ -11,13 +11,16 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@types/validator": "^13.15.10",
     "firebase": "^12.6.0",
     "git-commit-msg-linter": "^5.0.8",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-hook-form": "^7.67.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.9.6",
-    "styled-components": "^6.1.19"
+    "styled-components": "^6.1.19",
+    "validator": "^13.15.23"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

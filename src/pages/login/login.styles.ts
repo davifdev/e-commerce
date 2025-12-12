@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Colors from "../../themes/theme.colors";
 
 export const LoginContainer = styled.div`
+  padding-top: 78px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +16,7 @@ export const LoginHeadline = styled.p`
   color: ${Colors.text.dark};
 `;
 
-export const LoginContent = styled.div`
+export const LoginContent = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
