@@ -9,6 +9,9 @@ import { CircleCheckBigIcon, CircleXIcon, HomeIcon } from "lucide-react";
 import Colors from "../../themes/theme.colors";
 import Button from "../../components/button/button-component";
 import { IconContainer } from "../../components/button/button.styles";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { clearAllProducts } from "../../store/toolkit/cart/cart.slice";
 
 const PaymentConfirmation = () => {
   const [searchParams] = useSearchParams();
@@ -19,6 +22,15 @@ const PaymentConfirmation = () => {
   const handleGoToHomePageClick = () => {
     navigate("/");
   };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (status === "true") {
+      dispatch(clearAllProducts());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
   return (
     <>

@@ -14,7 +14,8 @@ import {
   decrementProductFromCart,
   incrementProductFromCart,
   removeProductFromCart,
-} from "../../store/reducers/cart/cart.actions";
+} from "../../store/toolkit/cart/cart.slice";
+
 interface CartItemProps {
   product: CartItem;
 }

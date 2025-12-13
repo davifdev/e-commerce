@@ -8,8 +8,7 @@ import {
   ProductInfo,
 } from "./product-item.styles";
 import { MdAddShoppingCart } from "react-icons/md";
-import { addProductFromCart } from "../../store/reducers/cart/cart.actions";
-
+import { addProductFromCart } from "../../store/toolkit/cart/cart.slice";
 interface ProductItemProps {
   product: Product;
 }
