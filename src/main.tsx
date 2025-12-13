@@ -6,7 +6,9 @@ import { CategoriesContextProvider } from "./contexts/categories.tsx";
 import { UserContextProvider } from "./contexts/user.tsx";
 import { CartContextProvider } from "./contexts/cart.tsx";
 import { Provider } from "react-redux";
-import { store } from "./store/store.ts";
+import { store, persistor } from "./store/store.ts";
+// @ts-ignore
+import { PersistGate } from "redux-persist/integration/react";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -14,7 +16,9 @@ createRoot(document.getElementById("root")!).render(
       <UserContextProvider>
         <CartContextProvider>
           <Provider store={store}>
-            <App />
+            <PersistGate persistor={persistor}>
+              <App />
+            </PersistGate>
           </Provider>
         </CartContextProvider>
       </UserContextProvider>

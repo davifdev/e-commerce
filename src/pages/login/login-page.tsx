@@ -21,12 +21,12 @@ import {
   type AuthError,
 } from "firebase/auth";
 import { auth, db, provider } from "../../firebase/firebase.config";
-import { addDoc, collection } from "firebase/firestore";
-import { useUserContext } from "../../contexts/user";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loading from "../../components/loading/loading-component";
-
+import { useAppSelector } from "../../hooks/redux.hooks";
 interface LoginUser {
   email: string;
   password: string;
@@ -35,7 +35,7 @@ interface LoginUser {
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { currentUser } = useUserContext();
+  const { currentUser } = useAppSelector((state) => state.userReducer);
 
   const {
     register,
@@ -79,16 +79,25 @@ const Login = () => {
       setIsLoading(true);
       const userCredential = await signInWithPopup(auth, provider);
       const user = userCredential.user;
-      const name = user.displayName?.split(" ")[0];
-      const lastname = user.displayName?.split(" ")[1];
 
-      await addDoc(collection(db, "users"), {
-        id: user.uid,
-        name,
-        lastname,
-        email: user.email,
-        provider: "Google",
-      });
+      const querySnapshot = await getDocs(
+        query(collection(db, "users"), where("id", "==", user.uid))
+      );
+
+      const userExistInDB = querySnapshot.docs[0]?.data();
+
+      if (!userExistInDB) {
+        const name = user.displayName?.split(" ")[0];
+        const lastname = user.displayName?.split(" ")[1];
+
+        await addDoc(collection(db, "users"), {
+          id: user.uid,
+          name,
+          lastname,
+          email: user.email,
+          provider: "Google",
+        });
+      }
     } catch (error) {
       console.log(error);
     } finally {

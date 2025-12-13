@@ -1,6 +1,6 @@
 import { MdOutlineShoppingCart } from "react-icons/md";
 
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   HeaderComponent,
   HeaderItem,
@@ -15,17 +15,19 @@ import type { MouseEvent } from "react";
 import { useAppSelector } from "../../hooks/redux.hooks";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../store/reducers/user/user.actions";
-import { handleVisible } from "../../store/reducers/cart/cart.actions";
+import { cartToggle } from "../../store/toolkit/cart/cart.slice";
 import { selectItemsCartLength } from "../../store/reducers/cart/cart.selectors";
 
 const Header = () => {
   const { currentUser } = useAppSelector((state) => state.userReducer);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSignout = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     signOut(auth);
     dispatch(logoutUser());
+    navigate("/");
   };
 
   const itemsCartQuantity = useAppSelector(selectItemsCartLength);
@@ -78,7 +80,7 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
           }}
-          onClick={() => dispatch(handleVisible())}
+          onClick={() => dispatch(cartToggle())}
         >
           <IconContainer>
             <MdOutlineShoppingCart size={24} />
